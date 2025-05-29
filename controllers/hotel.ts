@@ -81,6 +81,7 @@ export const postBookHotel: RequestHandler = (req, res) => {
   res.json("Book hotel successfully");
 };
 
+// POST-> /payment controller
 export const postPayment: RequestHandler = (req, res) => {
   res.statusCode = 201;
   res.json("Booking payment made successfully");

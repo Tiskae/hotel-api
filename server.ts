@@ -1,6 +1,6 @@
 import express from "express";
+import mongoose from "mongoose";
 import "dotenv/config";
-import bodyParser from "body-parser";
 import cors from "cors";
 import morgan from "morgan";
 
@@ -25,5 +25,7 @@ app.use(hotelRoutes);
 // Error handling middleware
 
 // Database connection
-
-app.listen(8080, () => console.log("Server is running on :8080"));
+mongoose
+  .connect(process.env.MONGODB_ATLAS_URI)
+  .then(() => app.listen(8080, () => console.log("Server is running on :8080")))
+  .catch((err) => console.error(err));
