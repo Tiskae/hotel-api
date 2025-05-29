@@ -44,6 +44,16 @@ hotelRoutes.post(
 );
 
 // POST-> /cancel/:bookingId
-hotelRoutes.post("/cancel/:bookingId", hotelControllers.postCancelBookingById);
+hotelRoutes.post(
+  "/cancel/:bookingId",
+  [
+    param("bookingId")
+      .exists()
+      .withMessage("bookingId is required")
+      .isString()
+      .withMessage("bookingId must be a string"),
+  ],
+  hotelControllers.postCancelBookingById
+);
 
 export default hotelRoutes;

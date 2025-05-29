@@ -40,7 +40,7 @@ export const getSearchHotels: RequestHandler = async (req, res, next) => {
     res.status(200).json(response.data);
   } catch (err) {
     console.error(err.response.data || err);
-    res.status(500).json(err.response.data || err);
+    res.status(500).json({ error: err.response.data || err });
   }
 };
 
@@ -70,11 +70,13 @@ export const getHotelById: RequestHandler = async (req, res, next) => {
     res.status(200).json(response.data);
   } catch (err) {
     console.error(err.response.data || err);
-    res.status(500).json(err.response.data || err);
+    res.status(500).json({ error: err.response.data || err });
   }
 };
 
+// POST-> /book controller
 export const postBookHotel: RequestHandler = (req, res) => {
+  // All bookings for the test hotel (use hid = 6291619or id = test_hotel_do_not_book)
   res.statusCode = 201;
   res.json("Book hotel successfully");
 };
@@ -84,7 +86,28 @@ export const postPayment: RequestHandler = (req, res) => {
   res.json("Booking payment made successfully");
 };
 
-export const postCancelBookingById: RequestHandler = (req, res) => {
-  res.statusCode = 201;
-  res.json("Cancel booking with the id");
+// POST-> /cancel/:bookingId controller
+export const postCancelBookingById: RequestHandler = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json({ error: errors.array() });
+    return;
+  }
+
+  const bookingId = req.params.bookingId;
+
+  try {
+    const response = await axiosInstance.post("/hotel/order/cancel/", {
+      partner_order_id: bookingId,
+    });
+
+    let statusCode = 201;
+    if (response.data.error === "order_not_found") statusCode = 404;
+
+    console.log(response);
+    res.status(statusCode).json(response.data);
+  } catch (err) {
+    console.error(err.response.data || err);
+    res.status(500).json({ error: err.response.data || err });
+  }
 };
