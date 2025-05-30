@@ -171,8 +171,8 @@ export const postBookHotel: RequestHandler = async (req, res) => {
 
     res.status(200).json({ message: "Booking successful", order_id });
   } catch (err) {
-    console.error(err.response?.data || err.message);
-    res.status(500).json({ error: "Booking failed" });
+    console.error(err.response?.data || err);
+    res.status(500).json({ error: err.response.data || err });
   }
 };
 
