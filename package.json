@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev-server": "nodemon server.ts",
-    "server": "tsx server.ts"
+    "server": "tsx server.ts",
+    "start": "tsx server.ts"
   },
   "author": "",
   "license": "ISC",
