@@ -26,7 +26,9 @@ app.use(hotelRoutes);
 // Error handling middleware
 
 // Database connection
+const port = process.env.PORT || 8080;
+
 mongoose
   .connect(process.env.MONGODB_ATLAS_URI)
-  .then(() => app.listen(8080, () => console.log("Server is running on :8080")))
+  .then(() => app.listen(port, () => console.log(`Server is running on ${port}`)))
   .catch((err) => console.error(err));
