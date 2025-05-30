@@ -34,11 +34,14 @@ hotelRoutes.post(
   "/book",
   [
     body("search_hash", "search_hash is required").notEmpty(),
-    body("arrrival_datetime", "arrival_datetime is required").notEmpty(),
+    body("arrival_datetime", "arrival_datetime is required").notEmpty(),
     body("user.first_name", "user.first_name is required").notEmpty(),
     body("user.last_name", "user.last_name is required").notEmpty(),
     body("card.holder", "card.holder is required").notEmpty(),
-    body("card.number", "card.number is required").notEmpty(),
+    body("card.number", "card.number is required")
+      .notEmpty()
+      .isLength({ min: 16, max: 16 })
+      .withMessage("card.number must be 16 characters"),
     body("card.year", "card.year is required")
       .notEmpty()
       .isLength({ min: 2, max: 2 })
