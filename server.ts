@@ -17,6 +17,7 @@ app.use(
     methods: "GET,POST",
   })
 );
+app.set("trust proxy", true); // to ensure req.ip always return true ip
 app.use(morgan("dev"));
 
 // Routes

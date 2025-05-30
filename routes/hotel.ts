@@ -32,16 +32,37 @@ hotelRoutes.get(
 // POST-> /book
 hotelRoutes.post(
   "/book",
-  [body("userId", "user id is required").isString(), body("hotelId", "hotel id is required").isString()],
+  [
+    body("search_hash", "search_hash is required").notEmpty(),
+    body("arrrival_datetime", "arrival_datetime is required").notEmpty(),
+    body("user.first_name", "user.first_name is required").notEmpty(),
+    body("user.last_name", "user.last_name is required").notEmpty(),
+    body("card.holder", "card.holder is required").notEmpty(),
+    body("card.number", "card.number is required").notEmpty(),
+    body("card.year", "card.year is required")
+      .notEmpty()
+      .isLength({ min: 2, max: 2 })
+      .withMessage("card.year must be 2 characters long"),
+    body("card.month", "card.month is required")
+      .notEmpty()
+      .isLength({ min: 2, max: 2 })
+      .withMessage("card.month must be 2 characters long"),
+    ,
+    body("card.cvv", "card.cvv is required")
+      .notEmpty()
+      .isLength({ min: 3, max: 3 })
+      .withMessage("card.cvv must be 3 characters long"),
+    ,
+  ],
   hotelControllers.postBookHotel
 );
 
-// POST-> /payment
-hotelRoutes.post(
-  "/payment",
-  [body("userId", "user id is required").isString(), body("paymentId", "payment id is required").isString()],
-  hotelControllers.postPayment
-);
+// // POST-> /payment (payment process already incorporated into /booking)
+// hotelRoutes.post(
+//   "/payment",
+//   [body("userId", "user id is required").isString(), body("paymentId", "payment id is required").isString()],
+//   hotelControllers.postPayment
+// );
 
 // POST-> /cancel/:bookingId
 hotelRoutes.post(
